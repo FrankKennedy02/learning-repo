@@ -4,7 +4,7 @@
 This repository organizes all code, data references, and analysis results related to sensitivity-based portfolio decomposition.
 
 ## 🔧 Project Structure
-‘’‘text
+```text
 my-python-project/
 │
 ├── src/                       # Core logic scripts
@@ -24,6 +24,6 @@ my-python-project/
 │
 ├── README.md                  # Project overview (this file)
 └── requirements.txt           # Python dependencies
-’‘’
+```
 
 
