@@ -1,4 +1,4 @@
-# Hi Yanni -- I made this change and committed it.  I'll ask you to confirm you see the change.
+# Hi Yanni -- I made a couple of small suggestions here.  I used your initials ZY: so you can easily find them
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from numpy.linalg import inv
 from statsmodels.stats.outliers_influence import variance_inflation_factor
-from names import bbg2name # colm change 0
+# from names import bbg2name # colm change 0
 
 def simulate_sensitivity_model(index_returns, shrinkage_lambda=0,annualization_factor = 12 , gamma=0.01, n_sim=1000):
-    T = 100 # index_returns.shape[0]
+    T = 100 # ZY: Please replace this with tau_prior=1/100 as in class.  Can this be read from the specs file?
     n_assets = index_returns.shape[1]
 
     # Estimated covariance (annualized)
@@ -30,7 +30,7 @@ def simulate_sensitivity_model(index_returns, shrinkage_lambda=0,annualization_f
 
 
     # Omega_0 = covariance of theta
-    Omega_0 = Sigma / T
+    Omega_0 = Sigma / T # ZY: Please replace this with Omega_0 = Sigma * tau_prior
     theta_0 = np.zeros((n_assets, 1))  # mean zero
     return MLBsim(Sigma,Omega_0,theta_0,gamma,n_sim)
 
@@ -67,7 +67,7 @@ def MLBsim(Sigma,Omega_0,theta_0,gamma,n_sim):
 
 def simulate_sensitivity_pca_model(index_returns,annualization_factor=12, n_factors=None, gamma=0.01, n_sim=1000):
     n_returns, n_assets = index_returns.shape
-    T=100
+    T=100 # ZY: Please replace this with tau_prior=1/100 as in class.  Can this be read from the specs file?
     returns_matrix = index_returns.values
     len(np.argwhere(np.isnan(returns_matrix)))
     Sigma = np.cov(returns_matrix.T) * annualization_factor 
@@ -80,7 +80,7 @@ def simulate_sensitivity_pca_model(index_returns,annualization_factor=12, n_fact
     Sigma_pca=evecn@np.diag(evaln)@evecn.T
     np.fill_diagonal(Sigma_pca, np.diag(Sigma))
     explained_variance_ratio= np.sum(evaln) / np.sum(eigenvalues)  # Explained variance ratio
-    Omega_0= Sigma_pca / T
+    Omega_0= Sigma_pca / T # ZY: Please replace this with Omega_0 = Sigma_pca * tau_prior
     mlb= MLBsim(Sigma_pca,Omega_0,theta_0,gamma,n_sim)
      
     mlb.update({"explained_variance_ratio":explained_variance_ratio, "n_factors": n_factors})
@@ -112,7 +112,7 @@ def run_sensitivity_analysis(index_returns, gamma, shrinkage_vec,n_factors_vec,t
     
 ## 2. Load and Preprocess Data from 2004-2024; from six Russell and Bloomberg Barclays bond indices
 # Reload index_returns from the pickle file
-returns_clean = pd.read_pickle('data/index_returns.pkl') # Reload from pickle
+returns_clean = pd.read_pickle('../data/index_returns.pkl') # ZY: I had to insert .. here so that it could find the file
 shrinkage_vec = [0, 0.2, 0.4, 0.6, 0.8]
 n_factors_vec=np.arange(0,24,1)
 
