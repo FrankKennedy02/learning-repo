@@ -1,3 +1,4 @@
+# Hi Yanni -- I made this change and committed it.  I'll ask you to confirm you see the change.
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
